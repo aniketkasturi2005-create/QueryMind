@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: querymind
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/querymind
+    username: root
+    password: 
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: 3600000
