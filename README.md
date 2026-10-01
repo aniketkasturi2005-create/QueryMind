@@ -20,9 +20,9 @@ The system converts natural-language questions into SQL using an LLM, independen
 
 \### Backend
 
-\- Java 17
+\- Java 26
 
-\- Spring Boot 3
+\- Spring Boot 4.1.1
 
 \- Maven
 
