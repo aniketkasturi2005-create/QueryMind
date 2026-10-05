@@ -30,9 +30,7 @@ public class AuthService {
         String encodedPassword =
                 passwordEncoder.encode(request.password());
 
-        Role role = request.role() != null
-                ? request.role()
-                : Role.VIEWER;
+       Role role = Role.VIEWER;
 
         User user = new User(
                 request.username(),
