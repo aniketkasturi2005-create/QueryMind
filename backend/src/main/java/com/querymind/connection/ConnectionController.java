@@ -1,3 +1,4 @@
+
 package com.querymind.connection;
 
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ public class ConnectionController {
 
     @PostMapping
     public ResponseEntity<ConnectionDtos.ConnectionResponse> createConnection(
-            @RequestBody ConnectionDtos.CreateConnectionRequest request
-    ) {
+            @RequestBody ConnectionDtos.CreateConnectionRequest request) {
+
         return ResponseEntity.ok(
                 connectionService.createConnection(request)
         );
@@ -26,8 +27,18 @@ public class ConnectionController {
 
     @GetMapping
     public ResponseEntity<List<ConnectionDtos.ConnectionResponse>> getAllConnections() {
+
         return ResponseEntity.ok(
                 connectionService.getAllConnections()
+        );
+    }
+
+    @PostMapping("/{id}/test")
+    public ResponseEntity<ConnectionDtos.ConnectionTestResponse> testConnection(
+            @PathVariable Long id) {
+
+        return ResponseEntity.ok(
+                connectionService.testConnection(id)
         );
     }
 }

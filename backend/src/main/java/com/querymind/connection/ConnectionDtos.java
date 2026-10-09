@@ -1,3 +1,4 @@
+
 package com.querymind.connection;
 
 public class ConnectionDtos {
@@ -19,5 +20,11 @@ public class ConnectionDtos {
             Integer port,
             String databaseName,
             String username
+    ) {}
+
+    public record ConnectionTestResponse(
+            Long connectionId,
+            boolean success,
+            String message
     ) {}
 }
