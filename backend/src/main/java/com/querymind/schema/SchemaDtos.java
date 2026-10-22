@@ -13,7 +13,8 @@ public class SchemaDtos {
     public record TableInfo(
             String tableName,
             String tableType,
-            List<ColumnInfo> columns
+            List<ColumnInfo> columns,
+            List<ForeignKeyInfo> foreignKeys
     ) {}
 
     public record ColumnInfo(
@@ -21,5 +22,12 @@ public class SchemaDtos {
             String dataType,
             boolean nullable,
             boolean primaryKey
+    ) {}
+
+    public record ForeignKeyInfo(
+            String columnName,
+            String referencedTable,
+            String referencedColumn,
+            String constraintName
     ) {}
 }

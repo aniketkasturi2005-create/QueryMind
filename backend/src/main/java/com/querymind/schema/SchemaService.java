@@ -71,6 +71,7 @@ public class SchemaService {
                     String tableType = tableRows.getString("TABLE_TYPE");
 
                     Set<String> primaryKeys = new HashSet<>();
+
                     try (ResultSet keys = metadata.getPrimaryKeys(
                             saved.getDatabaseName(), null, tableName)) {
                         while (keys.next()) {
@@ -78,8 +79,7 @@ public class SchemaService {
                         }
                     }
 
-                    List<SchemaDtos.ColumnInfo> columns =
-                            new ArrayList<>();
+                    List<SchemaDtos.ColumnInfo> columns = new ArrayList<>();
 
                     try (ResultSet columnRows = metadata.getColumns(
                             saved.getDatabaseName(), null, tableName, "%")) {
@@ -97,15 +97,32 @@ public class SchemaService {
                         }
                     }
 
+                    List<SchemaDtos.ForeignKeyInfo> foreignKeys =
+                            new ArrayList<>();
+
+                    try (ResultSet keyRows = metadata.getImportedKeys(
+                            saved.getDatabaseName(), null, tableName)) {
+                        while (keyRows.next()) {
+                            foreignKeys.add(
+                                    new SchemaDtos.ForeignKeyInfo(
+                                            keyRows.getString("FKCOLUMN_NAME"),
+                                            keyRows.getString("PKTABLE_NAME"),
+                                            keyRows.getString("PKCOLUMN_NAME"),
+                                            keyRows.getString("FK_NAME")
+                                    )
+                            );
+                        }
+                    }
+
                     tables.add(new SchemaDtos.TableInfo(
-                            tableName, tableType, columns));
+                            tableName, tableType, columns, foreignKeys));
                 }
             }
 
             return new SchemaDtos.SchemaResponse(
                     connectionId, saved.getDatabaseName(), tables);
 
-                        } catch (SQLException | RuntimeException exception) {
+        } catch (SQLException | RuntimeException exception) {
             throw new IllegalStateException(
                     "Could not retrieve database schema. Check the saved "
                             + "connection and its permissions.");
